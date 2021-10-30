@@ -3,7 +3,7 @@ import classes from "./Dialogs.module.css";
 
 import Dialog from './Dialog/Dialog';
 import Message from "./Message/Message";
-import {Redirect} from "react-router-dom";
+import {Form, Field} from "react-final-form";
 
 
 const Dialogs = (props) => {
@@ -12,15 +12,9 @@ const Dialogs = (props) => {
 
     let dialogsElements = state.dialogs.map((el) => <Dialog name={el.name} key={el.key} id={el.id}/>);
     let messagesElements = state.messages.map((el) => <Message message={el.message} key={el.key}/>);
-    let newMessageBody = state.newMessageBody;
 
-    const onSendMessageClick = () => {
-        props.sendMessage();
-    }
-
-    const onNewMessageChange = (e) => {
-        let body = e.target.value;
-        props.updateNewMessageBody(body);
+    const sendNewMessage = (values) => {
+        props.sendMessage(values.newMessageBody);
     }
 
     return (
@@ -33,17 +27,26 @@ const Dialogs = (props) => {
                 <ul className={classes.messagesList}>
                     {messagesElements}
                 </ul>
-                <div>
-                    <textarea cols='20' rows='5' onChange={onNewMessageChange}
-                              placeholder='Enter your message' value={newMessageBody}>
-
-                    </textarea>
-                </div>
-                <div>
-                    <button onClick={onSendMessageClick}>Send message</button>
-                </div>
+                <AddMessageForm sendNewMessage={sendNewMessage} />
             </div>
         </div>
+    )
+};
+
+const AddMessageForm = (props) => {
+    return (
+        <Form onSubmit={props.sendNewMessage}>
+            {(form) => (
+                <form onSubmit={form.handleSubmit}>
+                    <div>
+                        <Field name='newMessageBody' component='textarea' placeholder='Enter your message' />
+                    </div>
+                    <div>
+                        <button>Send message</button>
+                    </div>
+                </form>
+            )}
+        </Form>
     )
 }
 
