@@ -2,6 +2,8 @@ import React from "react";
 import classes from './MyPosts.module.css';
 
 import Post from './Post/Post';
+import {Form, Field} from "react-final-form";
+import {Textarea} from "../../common/FormsControls/FormsControls";
 
 
 const MyPosts = (props) => {
@@ -10,30 +12,40 @@ const MyPosts = (props) => {
 
     let newPostEl = React.createRef();
 
-    const onAddPost = () => {
-        props.addPost();
-    }
-
-    const onPostChange = () => {
-        let text = newPostEl.current.value;
-        props.updateNewPostText(text);
+    const onAddPost = (values) => {
+        props.addPost(values.newPostText);
     }
 
     return (
         <div className={classes.postsBlock}>
             <h3>My posts</h3>
             <div>
-                <div>
-                    <textarea cols="30" rows="10" ref={newPostEl} value={props.newPostText} onChange={onPostChange} />
-                </div>
-                <div>
-                    <button onClick={onAddPost}>Add post</button>
-                </div>
+                <AddPostForm addPost={onAddPost} />
             </div>
             <div className={classes.posts}>
                 {postsElements}
             </div>
         </div>
+    )
+};
+
+const AddPostForm = (props) => {
+
+    const required = (value) => (value ? undefined : "Required");
+
+    return (
+        <Form onSubmit={props.addPost}>
+            {(form) => (
+                <form onSubmit={form.handleSubmit}>
+                    <div>
+                        <Field validate={required} placeholder='Post message' name='newPostText' component={Textarea} cols="30" rows="10" />
+                    </div>
+                    <div>
+                        <button>Add post</button>
+                    </div>
+                </form>
+            )}
+        </Form>
     )
 }
 

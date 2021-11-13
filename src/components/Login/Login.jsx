@@ -1,6 +1,7 @@
 import React from "react";
 import {Form, Field} from "react-final-form";
 import styles from './Login.module.css';
+import {Input} from "../common/FormsControls/FormsControls";
 
 const LoginForm = (props) => {
 
@@ -18,7 +19,7 @@ const LoginForm = (props) => {
                 {(form) => (
                     <form onSubmit={form.handleSubmit}>
                         <div>
-                            <Field name='login' component='input' placeholder='Login' validate={required}>
+                            <Field name='login' component={Input} placeholder='Login' validate={required}>
                                 {({input, meta, placeholder}) => (
                                     <div>
                                         <label className={styles.label}>Login</label>
@@ -29,7 +30,7 @@ const LoginForm = (props) => {
                             </Field>
                         </div>
                         <div>
-                            <Field name='password' component='input' placeholder='Password' validate={required}>
+                            <Field name='password' component={Input} placeholder='Password' validate={required}>
                                 {({input, meta, placeholder}) => (
                                     <div>
                                         <label className={styles.label}>Password</label>
@@ -40,7 +41,7 @@ const LoginForm = (props) => {
                             </Field>
                         </div>
                         <div>
-                            <Field name='Remember me' component='input' type='checkbox'>
+                            <Field name='Remember me' component={Input} type='checkbox'>
                                 {({input, meta}) => (
                                     <div>
                                         <label className={styles.label}>Remember me</label>

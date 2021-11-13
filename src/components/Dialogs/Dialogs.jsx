@@ -4,6 +4,7 @@ import classes from "./Dialogs.module.css";
 import Dialog from './Dialog/Dialog';
 import Message from "./Message/Message";
 import {Form, Field} from "react-final-form";
+import {Textarea} from "../common/FormsControls/FormsControls";
 
 
 const Dialogs = (props) => {
@@ -34,12 +35,15 @@ const Dialogs = (props) => {
 };
 
 const AddMessageForm = (props) => {
+
+    const required = (value) => (value ? undefined : "Required");
+
     return (
         <Form onSubmit={props.sendNewMessage}>
             {(form) => (
                 <form onSubmit={form.handleSubmit}>
                     <div>
-                        <Field name='newMessageBody' component='textarea' placeholder='Enter your message' />
+                        <Field name='newMessageBody' validate={required} component={Textarea} placeholder='Enter your message' />
                     </div>
                     <div>
                         <button>Send message</button>
