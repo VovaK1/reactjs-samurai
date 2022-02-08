@@ -2,24 +2,20 @@ import React from "react";
 import {Form, Field} from "react-final-form";
 import styles from './Login.module.css';
 import {Input} from "../common/FormsControls/FormsControls";
+import {connect} from "react-redux";
+import {login} from "../../redux/reducers/authReducer";
+import {Redirect} from "react-router-dom";
 
 const LoginForm = (props) => {
-
-    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-    const onSubmit = async (state) => {
-        await sleep(500);
-        window.alert(JSON.stringify(state, undefined, 2));
-    }
 
     const required = value => value ? undefined : 'Required';
 
     return (
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={props.onSubmit}>
                 {(form) => (
                     <form onSubmit={form.handleSubmit}>
                         <div>
-                            <Field name='login' component={Input} placeholder='Login' validate={required}>
+                            <Field name='email' component={Input} placeholder='Email' validate={required}>
                                 {({input, meta, placeholder}) => (
                                     <div>
                                         <label className={styles.label}>Login</label>
@@ -41,7 +37,7 @@ const LoginForm = (props) => {
                             </Field>
                         </div>
                         <div>
-                            <Field name='Remember me' component={Input} type='checkbox'>
+                            <Field name='rememberMe' component={Input} type='checkbox'>
                                 {({input, meta}) => (
                                     <div>
                                         <label className={styles.label}>Remember me</label>
@@ -60,12 +56,25 @@ const LoginForm = (props) => {
 };
 
 const Login = (props) => {
+
+    const onSubmit = async (data) => {
+        props.login(data.email, data.password, data.rememberMe);
+    }
+
+    if (props.isAuth) {
+        return <Redirect to={'/profile'} />
+    }
+
     return (
         <div>
             <h1>Login</h1>
-           <LoginForm />
+           <LoginForm onSubmit={onSubmit} />
         </div>
     )
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+    isAuth: state.auth.isAuth
+})
+
+export default connect(mapStateToProps, {login})(Login);
