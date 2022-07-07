@@ -39,7 +39,7 @@ const usersReducer = (state = initialState, action) => {
         case SET_CURRENT_PAGE:
             return {...state, currentPage: action.page}
         case SET_TOTAL_USERS_COUNT:
-            return {...state, totalUsersCount: action.totalCount / 100}
+            return {...state, totalUsersCount: action.totalCount}
         case TOGGLE_IS_FETCHING:
             return {...state, isFetching: action.isFetching}
         case TOGGLE_FOLLOWING_IN_PROGRESS: {
