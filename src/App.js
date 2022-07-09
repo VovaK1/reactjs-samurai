@@ -1,5 +1,5 @@
 import "./App.css";
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, Route, withRouter, HashRouter} from "react-router-dom";
 
 import Nav from "./components/Nav/Nav";
 import News from "./components/News/News";
@@ -52,10 +52,12 @@ const mapStateToProps = (state) => ({
 
 const AppContainer = compose(withRouter, connect(mapStateToProps, {initializeApp}))(App);
 
-const SamuraiApp = (props) => (<BrowserRouter>
-    <Provider store={store}>
-        <AppContainer />
-    </Provider>
-</BrowserRouter>);
+const SamuraiApp = (props) => (
+    <HashRouter>
+        <Provider store={store}>
+            <AppContainer/>
+        </Provider>
+    </HashRouter>
+);
 
 export default SamuraiApp;
